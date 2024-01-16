@@ -1,10 +1,8 @@
 package com.pranav.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,25 +15,23 @@ import com.pranav.dao.StudentDao;
 import com.pranav.pojo.Student;
 
 @RestController
-@CrossOrigin
 public class StudentController {
 	@Autowired
 	public StudentDao sdao;
-	
+
 	@GetMapping("/students")
-	public List<Student> getAllStudents(){
+	public List<Student> getAllStudents() {
 		return sdao.findAll();
 	}
-	
+
 	@PostMapping("/student")
 	public Student InsertStudent(@RequestBody Student s) {
 		return sdao.save(s);
 	}
-	
-	
+
 	@PutMapping("/student/sid")
-	public Student saveStudent(@RequestBody Student s,@PathVariable int sid) {
-		Student stu = sdao.findById(sid);
+	public Student saveStudent(@RequestBody Student s, @PathVariable Long sid) {
+		Student stu = sdao.findById(sid).orElseThrow();
 		stu.setFirstName(s.getFirstName());
 		stu.setLastName(s.getLastName());
 		stu.setGender(s.getGender());
@@ -43,13 +39,15 @@ public class StudentController {
 		stu.setPhoneNumber(s.getPhoneNumber());
 		return sdao.save(stu);
 	}
-	
-	
+
 	@DeleteMapping("/student/{studentId}")
-	public void removeStudent(@PathVariable int studentId) {
+	public void removeStudent(@PathVariable Long studentId) {
 		sdao.deleteById(studentId);
 	}
 
-	
-	
+	@GetMapping("/student/{studentId}")
+	public Student getStudent(@PathVariable Long studentId) {
+		return sdao.findById(studentId).orElseThrow();
+	}
 }
+

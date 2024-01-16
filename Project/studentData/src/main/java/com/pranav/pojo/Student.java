@@ -1,16 +1,17 @@
 package com.pranav.pojo;
 
-import org.springframework.data.annotation.Id;
-
 import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
+@Entity
 public class Student {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
 	@Column(name = "firstname",length=30)
     private String firstName;
@@ -23,12 +24,14 @@ public class Student {
 	@Column(name = "phonenumber",length=15)
     private String phoneNumber;
     
+	// Constructors, getters, setters, and other methods...
+
    
     
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getFirstName() {
@@ -66,6 +69,4 @@ public class Student {
 		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", gender=" + gender
 				+ ", email=" + email + ", phoneNumber=" + phoneNumber + "]";
 	}
-	
-    
 }
